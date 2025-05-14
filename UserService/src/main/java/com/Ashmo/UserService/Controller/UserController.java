@@ -16,15 +16,13 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
-
-
 @RestController
 public class UserController {
     
     @Autowired
     private UserService userService;
 
-    // @PreAuthorize("hasAuthority('ADMIN')")
+    // Public endpoints - no authorization needed
     @PostMapping("/register")
     public Users addUser(@RequestBody Users user) {
         return userService.addUser(user);
@@ -35,7 +33,9 @@ public class UserController {
         return userService.verify(user);
     }
     
+    // Protected endpoints - require authentication
     @GetMapping("/refreshtoken")
+    @PreAuthorize("hasAnyRole('ADMIN', 'DEVELOPER', 'TESTER')")
     public Map<String, String> getNewToken(HttpServletRequest request) {
         String authorizationHeader = request.getHeader("Authorization");
         if (authorizationHeader == null || !authorizationHeader.startsWith("Bearer ")) {
@@ -46,11 +46,13 @@ public class UserController {
     }
     
     @GetMapping("/username/{id}")
+    @PreAuthorize("hasAnyRole('ADMIN', 'DEVELOPER', 'TESTER')")
     public String getUsername(@PathVariable int id) {
         return userService.getUsername(id);
     }
 
     @GetMapping("/user/{username}")
+    @PreAuthorize("hasAnyRole('ADMIN', 'DEVELOPER', 'TESTER')")
     public Users getUser(@PathVariable String username) {
         return userService.getUser(username);
     }

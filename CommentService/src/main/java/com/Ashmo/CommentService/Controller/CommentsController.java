@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -16,7 +17,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
-
 @RestController
 @RequestMapping("/comments")
 public class CommentsController {
@@ -25,6 +25,7 @@ public class CommentsController {
     private CommentsService commentsService;
 
     @GetMapping("/by_bug/{bugId}")
+    @PreAuthorize("hasAnyRole('ADMIN', 'DEVELOPER', 'TESTER')")
     public List<Comments> getCommentsByBugId(@PathVariable int bugId) {
         List<Comments> comments = commentsService.getCommentsByBugId(bugId);
         if(comments.isEmpty())
@@ -34,6 +35,7 @@ public class CommentsController {
     }
 
     @PostMapping("/create")
+    @PreAuthorize("hasAnyRole('ADMIN', 'DEVELOPER', 'TESTER')")
     public ResponseEntity<Comments> createNewComments(@RequestBody Comments comment) {
         Comments commentCreated = commentsService.createComment(comment);
         if(commentCreated == null)
@@ -42,6 +44,7 @@ public class CommentsController {
     }
 
     @DeleteMapping("/delete/{id}")
+    @PreAuthorize("hasAnyRole('ADMIN', 'DEVELOPER')")
     public ResponseEntity<?> deleteComments(@PathVariable int id) {
         boolean isDeleted = commentsService.deleteComment(id);
         if(!isDeleted)
@@ -50,6 +53,7 @@ public class CommentsController {
     }
     
     @DeleteMapping("/delete_by_bug/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
     public void deleteCommentsByBugId(@PathVariable int id) {
         commentsService.deleteCommentsByBugId(id);
     }

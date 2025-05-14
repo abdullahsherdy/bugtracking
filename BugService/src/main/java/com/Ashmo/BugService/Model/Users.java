@@ -28,7 +28,7 @@ public class Users {
         this.password = password;
     }
     public void setRole(String role) {
-        this.role = EncryptDecryptRole.encrypt(role);
+        this.role = role;
     }
     public String getRole() {
         return role;
