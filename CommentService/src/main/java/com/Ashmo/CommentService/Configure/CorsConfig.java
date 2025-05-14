@@ -1,4 +1,4 @@
-package com.Ashmo.UserService.Configure;
+package com.Ashmo.CommentService.Configure;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
