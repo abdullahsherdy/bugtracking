@@ -14,24 +14,27 @@ import org.springframework.stereotype.Component;
 @Component
 public class UserAspect {
 
-    Logger logger = LoggerFactory.getLogger(UserAspect.class);
+    private static final Logger logger = LoggerFactory.getLogger(UserAspect.class);
 
-    @Pointcut("execution(* com.Ashmo.UserService.Service..*(..))")
+    @Pointcut("execution(* com.Ashmo.CommentService.Service..*(..))")
     public void serviceLayer() {}
-    @Pointcut("execution(* com.Ashmo.UserService.Configure..*(..))")
-    public void configureLayer() {}
-    @Pointcut("execution(* com.Ashmo.UserService.Filter..*(..))")
+
+    @Pointcut("execution(* com.Ashmo.CommentService.Controller..*(..))")
+    public void controllerLayer() {}
+
+    @Pointcut("execution(* com.Ashmo.CommentService.Filter..*(..))")
     public void filterLayer() {}
+
     @Pointcut("serviceLayer() || controllerLayer() || filterLayer()")
     public void allLayer() {}
 
-    @Around(value = "serviceLayer()")
+    @Around("serviceLayer()")
     public Object logExecutionTime(ProceedingJoinPoint joinPoint) throws Throwable {
         long start = System.currentTimeMillis();
         Object proceed = joinPoint.proceed();
         long executionTime = System.currentTimeMillis() - start;
         logger.info("#######~~~~~~~#######");
-        logger.info("Method "+ joinPoint.getSignature().getName() +" executed in: " + executionTime + "ms");
+        logger.info("Method " + joinPoint.getSignature().getName() + " executed in: " + executionTime + "ms");
         logger.info("#######~~~~~~~#######");
         return proceed;
     }
