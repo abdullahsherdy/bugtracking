@@ -56,7 +56,7 @@ This is a comprehensive bug tracking system built using a microservices architec
 - **Security**: Spring Security with JWT
 - **Service Discovery**: Spring Cloud Eureka
 - **API Gateway**: Spring Cloud Gateway
-- **Database**: (To be specified)
+- **Database**: Postgresql
 - **Build Tool**: Maven
 - **Language**: Java
 
@@ -166,7 +166,7 @@ Each service implements three types of aspects:
 
 ### 1. LoggingAspect
 - Tracks method entry and exit points
-- Logs method return values
+- Logs method returns values
 - Applies to both controller and service layers
 - Provides detailed execution flow logging
 
