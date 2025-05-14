@@ -17,7 +17,7 @@ public class UserAspect {
     Logger logger = LoggerFactory.getLogger(UserAspect.class);
 
     @Pointcut("execution(* com.Ashmo.UserService.Service..*(..))")
-    public void serviceLayer() {}
+    public void serviceLayer() {}d
     @Pointcut("execution(* com.Ashmo.UserService.Configure..*(..))")
     public void configureLayer() {}
     @Pointcut("execution(* com.Ashmo.UserService.Filter..*(..))")
